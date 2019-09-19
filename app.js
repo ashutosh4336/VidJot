@@ -1,4 +1,5 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 
 const app = express();
 
@@ -9,13 +10,20 @@ const app = express();
 //   next();
 // });
 
+//Handlebars Middleware
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
+
 app.get('/', (req, res) => {
   //   console.log(req.name);
-  res.send('Hello From Node');
+  res.render('index');
 });
 
 app.get('/about', (req, res) => {
-  res.send('This is about Route');
+  const title = 'about';
+  res.render('about', {
+    title: title
+  });
 });
 
 const PORT = 5000 || process.env.PORT;
